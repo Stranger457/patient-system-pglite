@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Yooo
+      POSTGRES_DB: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: vallipichowdappa
+      DB_PASSWORD: Yooo
+      DB_NAME: postgres
+      YOUTUBE_API_KEY: AIzaSyDEaZM1K8AqBvL2xTKGalxI4k6YJDnXJ1M
+      FETCH_INTERVAL: 10
+
+volumes:
+  db_data:
