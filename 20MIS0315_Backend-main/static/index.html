@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Videos Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        img {
+            width: 120px;
+        }
+        input, button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTube Videos Dashboard</h1>
+    <div>
+        <input type="text" id="searchQuery" placeholder="Search videos">
+        <button onclick="fetchVideos()">Search</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th onclick="sortTable('title')">Title</th>
+                <th onclick="sortTable('publishDate')">Publish Date</th>
+                <th>Thumbnail</th>
+            </tr>
+        </thead>
+        <tbody id="videoTableBody">
+            <!-- Video data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        function fetchVideos() {
+            const query = document.getElementById('searchQuery').value;
+            fetch(`/api/videos?search=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('videoTableBody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+                    data.forEach(video => {
+                        const row = `<tr>
+                            <td>${video.title}</td>
+                            <td>${video.publishDate}</td>
+                            <td><img src="${video.thumbnailUrl}" alt="${video.title}"></td>
+                        </tr>`;
+                        tableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                });
+        }
+
+        function sortTable(column) {
+            // Implement sorting logic here
+        }
+    </script>
+</body>
+</html>
